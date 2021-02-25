@@ -5,14 +5,11 @@ class Card {
     this.cardValue = cardValue;
     this.isJoker = isJoker;
   }
-  getName() {
-    return `${this.rank} ${this.suit}`;
-  }
 }
 
 class Deck {
-  constructor(cards = []) {
-    this.cards = cards;
+  constructor() {
+    this.cards = [];
   }
 
   addNewCard(...card) {
@@ -22,51 +19,65 @@ class Deck {
   useCard() {
     return this.cards.shift();
   }
-  shuffleMethod() {}
 }
 
 class PlayerDeck extends Deck {
-  constructor(cards) {
-    super(cards);
+  constructor() {
+    super();
   }
 }
 
 class TableDeck extends Deck {
-  constructor(cards) {
-    super(cards);
+  constructor() {
+    super();
+  }
+  createFullDeck() {
+    this.cards = getDeck();
+  }
+  shuffleMethod() {
+    shuffle(this.cards);
+  }
+  dealCardsTo(player) {
+    for (let i = 0; i < 5; i++) {
+      player.playersDeck.addNewCard(this.useCard());
+    }
   }
 }
 
 class PileDeck extends Deck {
-  constructor(cards) {
-    super(cards);
+  constructor() {
+    super();
   }
+  refill() {}
 }
 
 class Player {
-  constructor(name) {
+  constructor(name, playersDeck) {
     this.name = name;
+    this.points = 0;
+    this.score = 0;
+    this.playersDeck = playersDeck;
   }
 }
 
-const suits = ["spades", "diamonds", "clubs", "hearts"];
-const ranks = [
-  "A",
-  "2",
-  "3",
-  "4",
-  "5",
-  "6",
-  "7",
-  "8",
-  "9",
-  "10",
-  "J",
-  "Q",
-  "K",
-];
-
 function getDeck() {
+  const suits = ["spades", "diamonds", "clubs", "hearts"];
+  const ranks = [
+    "A",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "10",
+    "J",
+    "Q",
+    "K",
+  ];
+
   let deck = new Array();
   let card;
 
@@ -85,8 +96,6 @@ function getDeck() {
   deck.push(new Card(null, null, 0, true));
   return deck;
 }
-
-const allDeck = getDeck();
 
 // shuffle array of cards
 function shuffle(deck) {
