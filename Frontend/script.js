@@ -48,3 +48,42 @@ class Player {
     this.name = name;
   }
 }
+
+const suits = ["spades", "diamonds", "clubs", "hearts"];
+const ranks = [
+  "A",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+  "J",
+  "Q",
+  "K",
+];
+
+function getDeck() {
+  let deck = new Array();
+  let card;
+
+  for (let i = 0; i < suits.length; i++) {
+    for (let x = 0; x < ranks.length; x++) {
+      if (x < 10) {
+        card = new Card(suits[i], ranks[x], x + 1);
+        deck.push(card);
+      } else {
+        card = new Card(suits[i], ranks[x], 10);
+        deck.push(card);
+      }
+    }
+  }
+  deck.push(new Card(null, null, 0, true));
+  deck.push(new Card(null, null, 0, true));
+  return deck;
+}
+
+const allDeck = getDeck();
