@@ -1,5 +1,6 @@
 /*-----------------All Classes-----------------*/
 
+// card class
 class Card {
   constructor(suit, rank, cardValue, isJoker = false) {
     this.suit = suit;
@@ -9,12 +10,13 @@ class Card {
   }
 }
 
+//main deck class
 class Deck {
   constructor() {
     this.cards = [];
   }
 
-  addNewCard(...card) {
+  addCard(...card) {
     this.cards.push(...card);
   }
 
@@ -23,6 +25,7 @@ class Deck {
   }
 }
 
+// playerdeck class
 class PlayerDeck extends Deck {
   constructor() {
     super();
@@ -36,6 +39,7 @@ class PlayerDeck extends Deck {
   }
 }
 
+// tabledeck class
 class TableDeck extends Deck {
   constructor() {
     super();
@@ -48,26 +52,25 @@ class TableDeck extends Deck {
   }
   dealCardsTo(player) {
     for (let i = 0; i < 5; i++) {
-      player.playersDeck.addNewCard(this.useCard());
+      player.playersDeck.addCard(this.useCard());
     }
   }
 
   refill(pileDeck) {
     for (let i = 0; i < pileDeck.length; i++) {
-      return pileDeck[i].useSet();
+      this.addCard(pileDeck[i].useSet());
     }
-    this.addCard(pileDeck.cards);
   }
 }
 
+// piledeck class
 class PileDeck extends Deck {
   constructor() {
     super();
     this.sets = [];
   }
-  addSet(set) {
-    this.sets.unshift(set);
-    this.addCard(...set);
+  addSet([...set]) {
+    this.sets.push([...set]);
   }
 
   useSet() {
@@ -75,16 +78,25 @@ class PileDeck extends Deck {
   }
 }
 
+// player class
 class Player {
   constructor(name, playersDeck) {
     this.name = name;
+    this.playersDeck = playersDeck;
     this.points = 0;
     this.score = 0;
-    this.playersDeck = playersDeck;
+  }
+  takeCardFromTableDeck(playerDeck, tableDeck) {
+    const newCard = tableDeck.useCard();
+    playerDeck.addCard(newCard);
+  }
+
+  dropSetToPileDeck(pileDeck, [...set]) {
+    pileDeck.addSet([...set]);
   }
 }
 
-/*-----------------Helper Function-----------------*/
+/*-----------------Helper Functions-----------------*/
 
 // Create new Deck
 function getDeck() {
@@ -137,3 +149,37 @@ function shuffle(deck) {
     deck[location2] = tmp;
   }
 }
+
+const t = new TableDeck();
+const playercards = new PlayerDeck();
+const player1 = new Player("eyal", playercards);
+const pile = new PileDeck();
+
+/*-----------------Play Ground-----------------*/
+
+// console.log(pile.cards);
+// console.log(pile.sets);
+// console.log(player1);
+// t.createFullDeck();
+// t.shuffleMethod();
+// t.dealCardsTo(player1);
+// console.log(player1);
+
+// console.log(player1.playersDeck[0]);
+// console.log(t.cards.length);
+// console.log(player1.playersDeck);
+
+// console.log(pile.sets);
+// console.log(player1.playersDeck);
+
+// player1.takeCardFromTableDeck(playercards, t);
+// console.log(t.cards.length);
+// console.log(player1.playersDeck);
+
+// player1.dropSetToPileDeck(pile, [playercards.useCard()]);
+// console.log(player1.playersDeck);
+
+// console.log(pile.sets);
+
+// console.log(player1.playersDeck);
+// console.log(t.cards.length);
