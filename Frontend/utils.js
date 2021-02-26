@@ -1,3 +1,5 @@
+/*-----------------All Classes-----------------*/
+
 class Card {
   constructor(suit, rank, cardValue, isJoker = false) {
     this.suit = suit;
@@ -25,6 +27,13 @@ class PlayerDeck extends Deck {
   constructor() {
     super();
   }
+  points() {
+    let sum = 0;
+    for (let i = 0; i < this.cards.length; i++) {
+      sum = sum + this.cards[i].cardValue;
+    }
+    return sum;
+  }
 }
 
 class TableDeck extends Deck {
@@ -42,13 +51,28 @@ class TableDeck extends Deck {
       player.playersDeck.addNewCard(this.useCard());
     }
   }
+
+  refill(pileDeck) {
+    for (let i = 0; i < pileDeck.length; i++) {
+      return pileDeck[i].useSet();
+    }
+    this.addCard(pileDeck.cards);
+  }
 }
 
 class PileDeck extends Deck {
   constructor() {
     super();
+    this.sets = [];
   }
-  refill() {}
+  addSet(set) {
+    this.sets.unshift(set);
+    this.addCard(...set);
+  }
+
+  useSet() {
+    return this.sets.shift();
+  }
 }
 
 class Player {
@@ -60,6 +84,9 @@ class Player {
   }
 }
 
+/*-----------------Helper Function-----------------*/
+
+// Create new Deck
 function getDeck() {
   const suits = ["spades", "diamonds", "clubs", "hearts"];
   const ranks = [
