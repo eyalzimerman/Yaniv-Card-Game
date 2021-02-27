@@ -58,9 +58,10 @@ class TableDeck extends Deck {
   }
 
   refill(pileDeck) {
-    for (let i = 0; i < pileDeck.length; i++) {
-      this.addCard(pileDeck[i].useSet());
+    for (let i = 0; i <= pileDeck.sets.length; i++) {
+      this.addCard(...pileDeck.useSet());
     }
+    this.addCard(...pileDeck.useSet());
   }
 }
 
@@ -96,11 +97,11 @@ class Player {
     pileDeck.addSet([...set]);
   }
 
-  takeCardFromPileDeck(playerDeck, pileDeck, cardId) {
+  takeCardFromPileDeck(playerDeck, pileDeck) {
     const takenCard = pileDeck.useSet();
 
     if (takenCard.length > 1) {
-      playerDeck.addCard(takenCard.splice(takenCard.cardId, 1));
+      playerDeck.addCard(takenCard.splice(takenCard, 1));
       pileDeck.addSet(takenCard);
     } else {
       playerDeck.addCard(takenCard[0]);
@@ -193,6 +194,18 @@ function shuffle(deck) {
 // console.log(player1.playersDeck);
 
 // console.log(pile.sets);
-
+// player1.takeCardFromPileDeck(playercards,pile)
+// console.log(pile.sets);
+// console.log(player1.playersDeck);
 // console.log(player1.playersDeck);
 // console.log(t.cards.length);
+// console.log(pile);
+// t.refill(pile);
+// console.log(pile.sets);
+// console.log(t);
+// player1.dropSetToPileDeck(pile, [playercards.useCard()]);
+// player1.dropSetToPileDeck(pile, [playercards.useCard()]);
+// player1.dropSetToPileDeck(pile, [playercards.useCard()]);
+// console.log(pile);
+// t.refill(pile);
+// console.log(pile.sets);
