@@ -54,7 +54,7 @@ class TableDeck extends Deck {
   dealCardsTo(players) {
     for (let j = 0; j < players.length; j++) {
       for (let i = 0; i < 5; i++) {
-        players[j].playersDeck.addCard(this.useCard());
+        players[j].handDeck.addCard(this.useCard());
       }
     }
   }
@@ -63,7 +63,7 @@ class TableDeck extends Deck {
     for (let i = 0; i <= pileDeck.sets.length; i++) {
       this.addCard(...pileDeck.useSet());
     }
-    this.addCard(...pileDeck.useSet());
+    this.addCard(pileDeck.useSet());
   }
 }
 
@@ -84,9 +84,9 @@ class PileDeck extends Deck {
 
 // player class
 class Player {
-  constructor(name, playersDeck) {
+  constructor(name, handDeck) {
     this.name = name;
-    this.playersDeck = playersDeck;
+    this.handDeck = handDeck;
     this.points = 0;
     this.score = 0;
   }
