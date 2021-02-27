@@ -51,9 +51,11 @@ class TableDeck extends Deck {
     shuffle(this.cards);
   }
 
-  dealCardsTo(player) {
-    for (let i = 0; i < 5; i++) {
-      player.playersDeck.addCard(this.useCard());
+  dealCardsTo(players) {
+    for (let j = 0; j < players.length; j++) {
+      for (let i = 0; i < 5; i++) {
+        players[j].playersDeck.addCard(this.useCard());
+      }
     }
   }
 
