@@ -2,7 +2,8 @@
 
 // card class
 class Card {
-  constructor(suit, rank, cardValue, isJoker = false) {
+  constructor(id, suit, rank, cardValue, isJoker = false) {
+    this.id = id;
     this.suit = suit;
     this.rank = rank;
     this.cardValue = cardValue;
@@ -15,13 +16,12 @@ class Deck {
   constructor() {
     this.cards = [];
   }
-
   addCard(...card) {
     this.cards.push(...card);
   }
 
   useCard() {
-    return this.cards.shift();
+    return this.cards.pop();
   }
 }
 
@@ -50,6 +50,7 @@ class TableDeck extends Deck {
   shuffleMethod() {
     shuffle(this.cards);
   }
+
   dealCardsTo(player) {
     for (let i = 0; i < 5; i++) {
       player.playersDeck.addCard(this.useCard());
@@ -74,7 +75,7 @@ class PileDeck extends Deck {
   }
 
   useSet() {
-    return this.sets.shift();
+    return this.sets.pop();
   }
 }
 
@@ -93,6 +94,17 @@ class Player {
 
   dropSetToPileDeck(pileDeck, [...set]) {
     pileDeck.addSet([...set]);
+  }
+
+  takeCardFromPileDeck(playerDeck, pileDeck, cardId) {
+    const takenCard = pileDeck.useSet();
+
+    if (takenCard.length > 1) {
+      playerDeck.addCard(takenCard.splice(takenCard.cardId, 1));
+      pileDeck.addSet(takenCard);
+    } else {
+      playerDeck.addCard(takenCard[0]);
+    }
   }
 }
 
@@ -119,20 +131,23 @@ function getDeck() {
 
   let deck = new Array();
   let card;
-
+  let cardId = 1;
   for (let i = 0; i < suits.length; i++) {
     for (let x = 0; x < ranks.length; x++) {
       if (x < 10) {
-        card = new Card(suits[i], ranks[x], x + 1);
+        card = new Card(cardId, suits[i], ranks[x], x + 1);
         deck.push(card);
+        cardId++;
       } else {
-        card = new Card(suits[i], ranks[x], 10);
+        card = new Card(cardId, suits[i], ranks[x], 10);
         deck.push(card);
+        cardId++;
       }
     }
   }
-  deck.push(new Card(null, null, 0, true));
-  deck.push(new Card(null, null, 0, true));
+  deck.push(new Card(cardId, null, null, 0, true));
+  cardId++;
+  deck.push(new Card(cardId, null, null, 0, true));
   return deck;
 }
 
@@ -150,22 +165,20 @@ function shuffle(deck) {
   }
 }
 
-const t = new TableDeck();
-const playercards = new PlayerDeck();
-const player1 = new Player("eyal", playercards);
-const pile = new PileDeck();
-
 /*-----------------Play Ground-----------------*/
 
-// console.log(pile.cards);
-// console.log(pile.sets);
+// const t = new TableDeck();
+// const playercards = new PlayerDeck();
+// const player1 = new Player("eyal", playercards);
+// const pile = new PileDeck();
+
 // console.log(player1);
 // t.createFullDeck();
 // t.shuffleMethod();
+// console.log(t);
 // t.dealCardsTo(player1);
-// console.log(player1);
+// console.log(player1.playersDeck);
 
-// console.log(player1.playersDeck[0]);
 // console.log(t.cards.length);
 // console.log(player1.playersDeck);
 
@@ -176,7 +189,7 @@ const pile = new PileDeck();
 // console.log(t.cards.length);
 // console.log(player1.playersDeck);
 
-// player1.dropSetToPileDeck(pile, [playercards.useCard()]);
+// player1.dropSetToPileDeck(pile, [playercards.useCard()]); //לשנות את use למחיקה לפי id
 // console.log(player1.playersDeck);
 
 // console.log(pile.sets);
