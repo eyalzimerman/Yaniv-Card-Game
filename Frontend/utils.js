@@ -9,6 +9,9 @@ class Card {
     this.cardValue = cardValue;
     this.isJoker = isJoker;
   }
+  getName() {
+    return `${this.rank} ${this.suit}`;
+  }
 }
 
 //main deck class
@@ -148,9 +151,9 @@ function getDeck() {
       }
     }
   }
-  deck.push(new Card(cardId, null, null, 0, true));
+  deck.push(new Card(cardId, "Black", "Joker", 0, true));
   cardId++;
-  deck.push(new Card(cardId, null, null, 0, true));
+  deck.push(new Card(cardId, "Red", "Joker", 0, true));
   return deck;
 }
 
@@ -175,22 +178,28 @@ function shuffle(deck) {
 // const player1 = new Player("eyal", playercards);
 // const pile = new PileDeck();
 
-// console.log(player1);
 // t.createFullDeck();
 // t.shuffleMethod();
 // console.log(t);
-// t.dealCardsTo(player1);
-// console.log(player1.playersDeck);
+// t.dealCardsTo([player1]);
+// console.log(player1);
+// console.log(player1.handDeck.cards[2].getName());
+// for (let i = 0; i < player1.length; i++) {
+//   console.log(player1.handDeck.cards[i].getName());
+
+// }
+// console.log(player1);
+// console.log(player1.handDeck);
 
 // console.log(t.cards.length);
-// console.log(player1.playersDeck);
+// console.log(player1.handDeck);
 
 // console.log(pile.sets);
-// console.log(player1.playersDeck);
+// console.log(player1.handDeck);
 
 // player1.takeCardFromTableDeck(playercards, t);
 // console.log(t.cards.length);
-// console.log(player1.playersDeck);
+// console.log(player1.handDeck);
 
 // player1.dropSetToPileDeck(pile, [playercards.useCard()]); //לשנות את use למחיקה לפי id
 // console.log(player1.playersDeck);

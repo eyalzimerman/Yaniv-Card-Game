@@ -2,4 +2,110 @@
   margin: 0;
   top: 0;
 }
+
+body {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  height: 100vh;
+  width: 100vw;
+  background-color: #44b444;
+}
+
+.players {
+  height: 150px;
+  width: 400px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background-color: grey;
+}
+
+#field-game {
+  border: 1px solid black;
+  display: none;
+  position: relative;
+  height: 80vh;
+  width: 80vw;
+  background-color: #44b444;
+}
+
+#p1 {
+  position: absolute;
+  top: 0;
+  height: 20%;
+}
+
+#p2 {
+  position: absolute;
+  right: 0;
+  height: 20%;
+}
+
+#p3 {
+  position: absolute;
+  top: 80%;
+  height: 20%;
+}
+
+#p4 {
+  position: absolute;
+  right: 0;
+  top: 80%;
+  height: 20%;
+}
+
+.card {
+  margin: 7px;
+  background-color: white;
+}
+
+#player1 {
+  position: absolute;
+  left: 20%;
+  top: 30%;
+}
+
+#player2 {
+  position: absolute;
+  right: 20%;
+  top: 30%;
+}
+
+#player3 {
+  position: absolute;
+  left: 20%;
+  top: 70%;
+}
+
+#player4 {
+  position: absolute;
+  right: 20%;
+  top: 70%;
+}
+
+#start-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+
+#start-info {
+  position: relative;
+  height: 80vh;
+  width: 80vw;
+  background-color: blue;
+}
 /*# sourceMappingURL=style.css.map */
