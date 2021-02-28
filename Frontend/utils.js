@@ -77,7 +77,7 @@ class PileDeck extends Deck {
     this.sets = [];
   }
   addSet([...set]) {
-    this.sets.push([...set]);
+    this.sets.push(...set);
   }
 
   useSet() {
@@ -99,7 +99,7 @@ class Player {
   }
 
   dropSetToPileDeck(pileDeck, [...set]) {
-    pileDeck.addSet([...set]);
+    pileDeck.addSet(set);
   }
 
   takeCardFromPileDeck(playerDeck, pileDeck) {

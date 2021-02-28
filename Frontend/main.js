@@ -16,12 +16,15 @@ startBtn.addEventListener("click", startGame);
 
 /*-----------------Game Flow-----------------*/
 
+// global variables
 const tableDeck = new TableDeck();
 const pileDeck = new PileDeck();
 const playersArr = [];
 const playersNames = [];
+let currentTurnPlayer;
 const playersDivs = [player1Div, player2Div, player3Div, player4Div];
 
+// start game function
 function startGame() {
   playersNames.push(player1.value || "No Name1");
   playersNames.push(player2.value || "No Name2");
@@ -43,18 +46,24 @@ function startGame() {
   printTableDeckToDom();
 }
 
+// round function
 function round() {
   tableDeck.dealCardsTo(playersArr);
   turn(playersArr[0]);
 }
 
+// turn function
 function turn(player) {
-  // player.dropSetToPileDeck(pileDeck, [player.handDeck.useCard()]);
-  const playerIndex = playersArr.indexOf(player) + 1;
-  const playerHand = document.querySelector(`#p${playerIndex}`);
+  currentTurnPlayer = playersArr.indexOf(player) + 1;
+  const playerHand = document.querySelector(`#p${currentTurnPlayer}`);
   playerHand.addEventListener("click", addCardToDropList);
+  const dropCardBtn = document.createElement("button");
+  dropCardBtn.innerText = "Drop";
+  playersDivs[playersDivs.indexOf(player) + 1].append(dropCardBtn);
+  dropCardBtn.addEventListener("click", dropCardsToPile);
 }
 
+// print players cards to dom
 function printPlayersCardToDom() {
   for (let k = 0; k < playersDivs.length; k++) {
     for (let x = 0; x < playersArr[k].handDeck.cards.length; x++) {
@@ -66,20 +75,68 @@ function printPlayersCardToDom() {
   }
 }
 
+// print table deck to dom
 function printTableDeckToDom() {
   const tableCard = document.createElement("div");
+  tableCard.addEventListener("click", takeCardFromTableDeck);
+  tableCard.addEventListener("click", takeCardFromPileDeck);
   tableCard.classList.add("table-card");
   tableCard.innerText = "Table Deck";
   fieldGame.append(tableCard);
 }
 
+// take card after throw from table deck
+function takeCardFromTableDeck() {}
+
+// take card after throw from pile deck
+function takeCardFromPileDeck() {}
+
+// function that adds wanted drop cards to list
 let cardsToDrop = [];
 function addCardToDropList(event) {
   if (event.target.className !== "card") {
     return;
   }
   if (!cardsToDrop.includes(event.target)) {
-    cardsToDrop.push(event.target);
+    cardsToDrop.push(event.target.innerText);
   }
   console.log(cardsToDrop);
+}
+
+//drop cards to pile and remove from player
+function dropCardsToPile() {
+  filterPlayerDropCards();
+  playersArr[currentTurnPlayer - 1].dropSetToPileDeck(pileDeck, selectedCards);
+  console.log(pileDeck);
+  const tempArr = [];
+  playersArr[currentTurnPlayer - 1].handDeck.cards.forEach((card) => {
+    if (!selectedCards.includes(card)) {
+      tempArr.push(card);
+    }
+  });
+  playersArr[currentTurnPlayer - 1].handDeck.cards = tempArr;
+  printCardToPileDeck();
+}
+
+// function that prints drop card to pile deck
+function printCardToPileDeck() {
+  const pileCard = document.createElement("div");
+  pileCard.addEventListener("click", takeCardFromPileDeck);
+  pileCard.classList.add("pile-deck");
+  pileCard.innerText = `PileDeck\n${pileDeck.useSet().getName()}`;
+  fieldGame.append(pileCard);
+}
+
+// function that filter the selected cards of the player new to list
+const selectedCards = [];
+function filterPlayerDropCards() {
+  cardsToDrop.forEach((card) => {
+    selectedCards.push(
+      playersArr[currentTurnPlayer - 1].handDeck.cards.filter((playerCard) => {
+        if (playerCard.getName() === card) {
+          return true;
+        }
+      })[0]
+    );
+  });
 }

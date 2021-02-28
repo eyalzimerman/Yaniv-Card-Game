@@ -126,4 +126,14 @@ input {
   background-color: white;
   cursor: pointer;
 }
+
+.pile-deck {
+  height: 50px;
+  width: 90px;
+  position: absolute;
+  top: 50%;
+  left: 35%;
+  background-color: white;
+  cursor: pointer;
+}
 /*# sourceMappingURL=style.css.map */
