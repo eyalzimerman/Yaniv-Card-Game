@@ -41,19 +41,21 @@ body {
 }
 #p3 {
   position: absolute;
+  right: 0;
   top: 80%;
   height: 20%;
 }
 #p4 {
   position: absolute;
-  right: 0;
   top: 80%;
   height: 20%;
 }
 
 .card {
-  margin: 7px;
+  margin: 5px;
+  padding: 5px;
   background-color: white;
+  cursor: pointer;
 }
 
 #player1 {
@@ -68,12 +70,12 @@ body {
 }
 #player3 {
   position: absolute;
-  left: 20%;
+  right: 20%;
   top: 70%;
 }
 #player4 {
   position: absolute;
-  right: 20%;
+  left: 20%;
   top: 70%;
 }
 
@@ -87,4 +89,21 @@ body {
   position: relative;
   height: 80vh;
   width: 80vw;
+}
+
+input {
+  border: none;
+  padding: 12px;
+  margin: 5px;
+  border-radius: 9px;
+}
+
+.table-card {
+  height: 50px;
+  width: 90px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background-color: white;
+  cursor: pointer;
 }

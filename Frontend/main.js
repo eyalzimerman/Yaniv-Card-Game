@@ -40,15 +40,20 @@ function startGame() {
   fieldGame.style.display = "block";
   round();
   printPlayersCardToDom();
+  printTableDeckToDom();
 }
 
 function round() {
   tableDeck.dealCardsTo(playersArr);
+  turn(playersArr[0]);
 }
 
-// function turn(player){
-//     player.dropSetToPileDeck(pileDeck, [player.handDeck.useCard()]);
-// }
+function turn(player) {
+  // player.dropSetToPileDeck(pileDeck, [player.handDeck.useCard()]);
+  const playerIndex = playersArr.indexOf(player) + 1;
+  const playerHand = document.querySelector(`#p${playerIndex}`);
+  playerHand.addEventListener("click", addCardToDropList);
+}
 
 function printPlayersCardToDom() {
   for (let k = 0; k < playersDivs.length; k++) {
@@ -59,4 +64,22 @@ function printPlayersCardToDom() {
       playersDivs[k].append(card);
     }
   }
+}
+
+function printTableDeckToDom() {
+  const tableCard = document.createElement("div");
+  tableCard.classList.add("table-card");
+  tableCard.innerText = "Table Deck";
+  fieldGame.append(tableCard);
+}
+
+let cardsToDrop = [];
+function addCardToDropList(event) {
+  if (event.target.className !== "card") {
+    return;
+  }
+  if (!cardsToDrop.includes(event.target)) {
+    cardsToDrop.push(event.target);
+  }
+  console.log(cardsToDrop);
 }
