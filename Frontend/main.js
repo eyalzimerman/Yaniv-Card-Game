@@ -145,10 +145,17 @@ function dropCardsToPile() {
 function removeCardFromDom(cards) {
   const container = document.querySelector(`#p${currentTurnPlayer}`);
   console.log(container);
+  const tempArr = [];
   container.childNodes.forEach((element) => {
-    if (cards.includes(element.innerText)) {
-      container.removeChild(element);
+    for (const card of cards) {
+      console.log(card === element.innerText);
+      if (card === element.innerText) {
+        tempArr.push(element);
+      }
     }
+  });
+  tempArr.forEach((deleteCard) => {
+    container.removeChild(deleteCard);
   });
 }
 
