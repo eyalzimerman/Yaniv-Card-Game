@@ -41,9 +41,9 @@ function startGame() {
   tableDeck.shuffleMethod();
 
   fieldGame.style.display = "block";
-  round();
   printPlayersCardToDom();
   printCardToDom(takeCardFromTableDeck, "table-card", "Table Deck", fieldGame);
+  round();
 }
 
 // round function
