@@ -43,7 +43,7 @@ function startGame() {
   fieldGame.style.display = "block";
   round();
   printPlayersCardToDom();
-  printTableDeckToDom();
+  printCardToDom(takeCardFromTableDeck, "table-card", "Table Deck", fieldGame);
 }
 
 // round function
@@ -76,14 +76,13 @@ function printPlayersCardToDom() {
 }
 
 // print table deck to dom
-function printTableDeckToDom() {
-  const tableCard = document.createElement("div");
-  tableCard.addEventListener("click", takeCardFromTableDeck);
-  tableCard.addEventListener("click", takeCardFromPileDeck);
-  tableCard.classList.add("table-card");
-  tableCard.innerText = "Table Deck";
-  fieldGame.append(tableCard);
-}
+// function printTableDeckToDom() {
+//   const tableCard = document.createElement("div");
+//   tableCard.addEventListener("click", takeCardFromTableDeck);
+//   tableCard.classList.add("table-card");
+//   tableCard.innerText = "Table Deck";
+//   fieldGame.append(tableCard);
+// }
 
 // take card after throw from table deck
 function takeCardFromTableDeck() {}
@@ -97,7 +96,7 @@ function addCardToDropList(event) {
   if (event.target.className !== "card") {
     return;
   }
-  if (!cardsToDrop.includes(event.target)) {
+  if (!cardsToDrop.includes(event.target.innerText)) {
     cardsToDrop.push(event.target.innerText);
   }
   console.log(cardsToDrop);
@@ -115,16 +114,22 @@ function dropCardsToPile() {
     }
   });
   playersArr[currentTurnPlayer - 1].handDeck.cards = tempArr;
-  printCardToPileDeck();
+  printCardToDom(
+    takeCardFromPileDeck,
+    "pile-deck",
+    pileDeck.sets[0].getName(),
+    fieldGame
+  );
+  // printPlayersCardToDom();
 }
 
 // function that prints drop card to pile deck
-function printCardToPileDeck() {
-  const pileCard = document.createElement("div");
-  pileCard.addEventListener("click", takeCardFromPileDeck);
-  pileCard.classList.add("pile-deck");
-  pileCard.innerText = `PileDeck\n${pileDeck.useSet().getName()}`;
-  fieldGame.append(pileCard);
+function printCardToDom(functionEvent, className, innerText, parent) {
+  const cardOnDOm = document.createElement("div");
+  cardOnDOm.addEventListener("click", functionEvent);
+  cardOnDOm.classList.add(className);
+  cardOnDOm.innerText = innerText;
+  parent.append(cardOnDOm);
 }
 
 // function that filter the selected cards of the player new to list
