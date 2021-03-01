@@ -79,7 +79,7 @@ function printPlayersCardToDom() {
 function printTableDeckToDom() {
   const tableCard = document.createElement("div");
   tableCard.addEventListener("click", takeCardFromTableDeck);
-  tableCard.addEventListener("click", takeCardFromPileDeck);
+
   tableCard.classList.add("table-card");
   tableCard.innerText = "Table Deck";
   fieldGame.append(tableCard);
@@ -97,7 +97,7 @@ function addCardToDropList(event) {
   if (event.target.className !== "card") {
     return;
   }
-  if (!cardsToDrop.includes(event.target)) {
+  if (!cardsToDrop.includes(event.target.innerText)) {
     cardsToDrop.push(event.target.innerText);
   }
   console.log(cardsToDrop);
