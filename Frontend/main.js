@@ -41,14 +41,22 @@ function startGame() {
   tableDeck.shuffleMethod();
 
   fieldGame.style.display = "block";
-  round();
+  tableDeck.dealCardsTo(playersArr);
+  const initCard = tableDeck.useCard();
+  printCardToDom(
+    takeCardFromPileDeck,
+    "pile-deck",
+    initCard.getName(),
+    fieldGame
+  );
+  pileDeck.sets.push(initCard);
   printPlayersCardToDom();
   printCardToDom(takeCardFromTableDeck, "table-card", "Table Deck", fieldGame);
+  round();
 }
 
 // round function
 function round() {
-  tableDeck.dealCardsTo(playersArr);
   turn(playersArr[0]);
 }
 
@@ -57,10 +65,22 @@ function turn(player) {
   currentTurnPlayer = playersArr.indexOf(player) + 1;
   const playerHand = document.querySelector(`#p${currentTurnPlayer}`);
   playerHand.addEventListener("click", addCardToDropList);
-  const dropCardBtn = document.createElement("button");
-  dropCardBtn.innerText = "Drop";
-  playersDivs[playersDivs.indexOf(player) + 1].append(dropCardBtn);
-  dropCardBtn.addEventListener("click", dropCardsToPile);
+  const tableCard = document.querySelector(".table-card");
+  const pileCard = document.querySelector(".pile-deck");
+  tableCard.addEventListener("click", () => {
+    dropCardsToPile();
+    removeCardFromDom(cardsToDrop);
+    takeCardFromTableDeck(currentTurnPlayer, playerHand);
+    // tableCard.removeEventListener('click');
+    // pileDeck.removeEventListener();
+  });
+  pileCard.addEventListener("click", () => {
+    dropCardsToPile();
+    removeCardFromDom(cardsToDrop);
+    takeCardFromPileDeck(currentTurnPlayer, playerHand);
+    // pileDeck.removeEventListener();
+    // tableCard.removeEventListener();
+  });
 }
 
 // print players cards to dom
@@ -76,10 +96,19 @@ function printPlayersCardToDom() {
 }
 
 // take card after throw from table deck
-function takeCardFromTableDeck() {}
+function takeCardFromTableDeck(currentTurnPlayer, playerHand) {
+  const takenCard = tableDeck.useCard();
+  playersArr[currentTurnPlayer - 1].handDeck.cards.push(takenCard);
+  printCardToDom(addCardToDropList, "card", takenCard.getName(), playerHand);
+}
 
 // take card after throw from pile deck
-function takeCardFromPileDeck() {}
+function takeCardFromPileDeck(currentTurnPlayer, playerHand) {
+  const takenCard = pileDeck.sets[pileDeck.sets.length - 2];
+  console.log(pileDeck.sets);
+  playersArr[currentTurnPlayer - 1].handDeck.cards.push(takenCard);
+  printCardToDom(addCardToDropList, "card", takenCard.getName(), playerHand);
+}
 
 // function that adds wanted drop cards to list
 let cardsToDrop = [];
@@ -108,9 +137,19 @@ function dropCardsToPile() {
   printCardToDom(
     takeCardFromPileDeck,
     "pile-deck",
-    pileDeck.sets[0].getName(),
+    pileDeck.sets[pileDeck.sets.length - 1].getName(),
     fieldGame
   );
+}
+
+function removeCardFromDom(cards) {
+  const container = document.querySelector(`#p${currentTurnPlayer}`);
+  console.log(container);
+  container.childNodes.forEach((element) => {
+    if (cards.includes(element.innerText)) {
+      container.removeChild(element);
+    }
+  });
 }
 
 // function that prints drop card to pile deck
