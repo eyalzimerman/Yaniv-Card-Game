@@ -41,9 +41,9 @@ function startGame() {
   tableDeck.shuffleMethod();
 
   fieldGame.style.display = "block";
+  round();
   printPlayersCardToDom();
   printCardToDom(takeCardFromTableDeck, "table-card", "Table Deck", fieldGame);
-  round();
 }
 
 // round function
@@ -74,15 +74,6 @@ function printPlayersCardToDom() {
     }
   }
 }
-
-// print table deck to dom
-// function printTableDeckToDom() {
-//   const tableCard = document.createElement("div");
-//   tableCard.addEventListener("click", takeCardFromTableDeck);
-//   tableCard.classList.add("table-card");
-//   tableCard.innerText = "Table Deck";
-//   fieldGame.append(tableCard);
-// }
 
 // take card after throw from table deck
 function takeCardFromTableDeck() {}
@@ -120,7 +111,6 @@ function dropCardsToPile() {
     pileDeck.sets[0].getName(),
     fieldGame
   );
-  // printPlayersCardToDom();
 }
 
 // function that prints drop card to pile deck
