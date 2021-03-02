@@ -48,11 +48,18 @@ function startGame() {
     takeCardFromPileDeck,
     "pile-deck",
     initCard.getName(),
-    pileDeckContainer
+    pileDeckContainer,
+    initCard.getSrc()
   );
   pileDeck.sets.push(initCard);
   printPlayersCardToDom();
-  printCardToDom(takeCardFromTableDeck, "table-card", "Table Deck", fieldGame);
+  printCardToDom(
+    takeCardFromTableDeck,
+    "table-card",
+    "Table Deck",
+    fieldGame,
+    "Card_back"
+  );
   round();
 }
 
@@ -64,6 +71,7 @@ function round() {
 
 // turn function
 function turn(player) {
+  if (player === 5) player = 1;
   console.log(player);
   cardsToDrop = [];
   selectedCards = [];
@@ -139,7 +147,13 @@ function takeCardFromTableDeck(currentTurnPlayer, playerHand) {
   console.log(currentTurnPlayer);
   console.log(playersArr[currentTurnPlayer - 1]);
   playersArr[currentTurnPlayer - 1].handDeck.cards.push(takenCard);
-  printCardToDom(addCardToDropList, "card", takenCard.getName(), playerHand);
+  printCardToDom(
+    addCardToDropList,
+    "card",
+    takenCard.getName(),
+    playerHand,
+    takenCard.getSrc()
+  );
 }
 
 // take card after throw from pile deck
@@ -148,7 +162,13 @@ function takeCardFromPileDeck(currentTurnPlayer, playerHand) {
   console.log(pileDeck.sets);
   console.log(currentTurnPlayer);
   playersArr[currentTurnPlayer - 1].handDeck.cards.push(takenCard);
-  printCardToDom(addCardToDropList, "card", takenCard.getName(), playerHand);
+  printCardToDom(
+    addCardToDropList,
+    "card",
+    takenCard.getName(),
+    playerHand,
+    takenCard.getSrc()
+  );
 }
 
 // function that adds wanted drop cards to list
@@ -179,7 +199,8 @@ function dropCardsToPile() {
     takeCardFromPileDeck,
     "pile-deck",
     pileDeck.sets[pileDeck.sets.length - 1].getName(),
-    pileDeckContainer
+    pileDeckContainer,
+    pileDeck.sets[pileDeck.sets.length - 1].getSrc()
   );
 }
 
@@ -200,11 +221,13 @@ function removeCardFromDom(cards) {
 }
 
 // function that prints drop card to pile deck
-function printCardToDom(functionEvent, className, innerText, parent) {
-  const cardOnDOm = document.createElement("div");
+function printCardToDom(functionEvent, className, innerText, parent, imgSrc) {
+  console.log(imgSrc);
+  const cardOnDOm = document.createElement("img");
   cardOnDOm.addEventListener("click", functionEvent);
   cardOnDOm.classList.add(className);
-  cardOnDOm.innerText = innerText;
+  cardOnDOm.setAttribute("src", `./cards-svg/${imgSrc}.svg`);
+  cardOnDOm.setAttribute("alt", innerText);
   parent.append(cardOnDOm);
 }
 

@@ -2,15 +2,19 @@
 
 // card class
 class Card {
-  constructor(id, suit, rank, cardValue, isJoker = false) {
+  constructor(id, suit, rank, cardValue, isJoker = false, imgSrc) {
     this.id = id;
     this.suit = suit;
     this.rank = rank;
     this.cardValue = cardValue;
     this.isJoker = isJoker;
+    this.imgSrc = imgSrc;
   }
   getName() {
     return `${this.rank} ${this.suit}`;
+  }
+  getSrc() {
+    return `${this.rank}${this.imgSrc}`;
   }
 }
 
@@ -135,25 +139,27 @@ function getDeck() {
     "K",
   ];
 
+  const imgSrc = ["S", "D", "C", "H"];
+
   let deck = new Array();
   let card;
   let cardId = 1;
   for (let i = 0; i < suits.length; i++) {
     for (let x = 0; x < ranks.length; x++) {
       if (x < 10) {
-        card = new Card(cardId, suits[i], ranks[x], x + 1);
+        card = new Card(cardId, suits[i], ranks[x], x + 1, null, imgSrc[i]);
         deck.push(card);
         cardId++;
       } else {
-        card = new Card(cardId, suits[i], ranks[x], 10);
+        card = new Card(cardId, suits[i], ranks[x], 10, null, imgSrc[i]);
         deck.push(card);
         cardId++;
       }
     }
   }
-  deck.push(new Card(cardId, "Black", "Joker", 0, true));
+  deck.push(new Card(cardId, "Black", "Joker", 0, true, "Black_joker"));
   cardId++;
-  deck.push(new Card(cardId, "Red", "Joker", 0, true));
+  deck.push(new Card(cardId, "Red", "Joker", 0, true, "Black_joker"));
   return deck;
 }
 

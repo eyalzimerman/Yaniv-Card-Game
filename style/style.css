@@ -70,8 +70,11 @@ body {
 .card {
   margin: 5px;
   padding: 5px;
+  height: 100%;
+  width: 100%;
   background-color: white;
   cursor: pointer;
+  display: inline-block;
 }
 
 #player1 {
