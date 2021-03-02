@@ -133,9 +133,13 @@ function addTakeFromTableEvent(tableCard, player, playerHand) {
 function printPlayersCardToDom() {
   for (let k = 0; k < playersDivs.length; k++) {
     for (let x = 0; x < playersArr[k].handDeck.cards.length; x++) {
-      const card = document.createElement("div");
+      const card = document.createElement("img");
       card.classList.add("card");
-      card.innerText = playersArr[k].handDeck.cards[x].getName();
+      card.setAttribute(
+        "src",
+        `./cards-svg/${playersArr[k].handDeck.cards[x].getSrc()}.svg`
+      );
+      card.setAttribute("alt", playersArr[k].handDeck.cards[x].getName());
       playersDivs[k].append(card);
     }
   }
@@ -177,8 +181,8 @@ function addCardToDropList(event) {
   if (event.target.className !== "card") {
     return;
   }
-  if (!cardsToDrop.includes(event.target.innerText)) {
-    cardsToDrop.push(event.target.innerText);
+  if (!cardsToDrop.includes(event.target.getAttribute("alt"))) {
+    cardsToDrop.push(event.target.getAttribute("alt"));
   }
   console.log(cardsToDrop);
 }
@@ -210,7 +214,7 @@ function removeCardFromDom(cards) {
   const tempArr = [];
   container.childNodes.forEach((element) => {
     for (const card of cards) {
-      if (card === element.innerText) {
+      if (card === element.getAttribute("alt")) {
         tempArr.push(element);
       }
     }

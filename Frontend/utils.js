@@ -157,9 +157,9 @@ function getDeck() {
       }
     }
   }
-  deck.push(new Card(cardId, "Black", "Joker", 0, true, "Black_joker"));
+  deck.push(new Card(cardId, "Black", "Joker", 0, true, "Black"));
   cardId++;
-  deck.push(new Card(cardId, "Red", "Joker", 0, true, "Black_joker"));
+  deck.push(new Card(cardId, "Red", "Joker", 0, true, "Red"));
   return deck;
 }
 
