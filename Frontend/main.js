@@ -71,7 +71,6 @@ function round() {
 
 // turn function
 function turn(player) {
-  if (player === 5) player = 1;
   console.log(player);
   cardsToDrop = [];
   selectedCards = [];
@@ -81,7 +80,7 @@ function turn(player) {
   const tableCard = document.querySelector(".table-card");
   const pileCard = document.querySelector(".pile-deck");
   console.log(player);
-  addTakeFromTableEvent(tableCard, player, playerHand);
+  addTakeFromTableEvent(tableCard, player, playerHand, pileCard);
   // dropCardsToPile();
   // removeCardFromDom(cardsToDrop);
   // takeCardFromTableDeck(player, playerHand);
@@ -90,7 +89,7 @@ function turn(player) {
   // tableCard.removeEventListener('click');
   // pileDeck.removeEventListener();
   // });
-  addTakeFromPileEvent(pileCard, player, playerHand);
+  addTakeFromPileEvent(pileCard, player, playerHand, tableCard);
   // pileCard.addEventListener("click", addTakeFromPileEvent);
   // dropCardsToPile();
   // removeCardFromDom(cardsToDrop);
@@ -103,30 +102,51 @@ function turn(player) {
 }
 
 //
-function addTakeFromPileEvent(pileCard, player, playerHand) {
+function addTakeFromPileEvent(pileCard, player, playerHand, tableCard) {
+  console.log("sdfsdfsdfsfsd");
   pileCard.removeEventListener("click", takeCardFromPileDeck);
-  pileCard.addEventListener("click", function takeFromPileEvent() {
-    dropCardsToPile();
-    removeCardFromDom(cardsToDrop);
-    takeCardFromPileDeck(player, playerHand);
-    pileCard.removeEventListener("click", takeFromPileEvent);
-    playerHand.removeEventListener("click", addCardToDropList);
-    currentTurnPlayer++;
-    turn(currentTurnPlayer);
-  });
+  pileCard.addEventListener(
+    "click",
+    (window.y = function takeFromPileEvent() {
+      console.log(player);
+
+      dropCardsToPile();
+      removeCardFromDom(cardsToDrop);
+      takeCardFromPileDeck(player, playerHand);
+      pileCard.removeEventListener("click", takeFromPileEvent);
+      playerHand.removeEventListener("click", addCardToDropList);
+      tableCard.removeEventListener("click", x);
+      if (player === 4) {
+        currentTurnPlayer = 1;
+      } else {
+        currentTurnPlayer++;
+      }
+      turn(currentTurnPlayer);
+    })
+  );
 }
 
-function addTakeFromTableEvent(tableCard, player, playerHand) {
+function addTakeFromTableEvent(tableCard, player, playerHand, pileCard) {
   tableCard.removeEventListener("click", takeCardFromTableDeck);
-  tableCard.addEventListener("click", function takeFromTableEvent() {
-    dropCardsToPile();
-    removeCardFromDom(cardsToDrop);
-    takeCardFromTableDeck(player, playerHand);
-    tableCard.removeEventListener("click", takeFromTableEvent);
-    playerHand.removeEventListener("click", addCardToDropList);
-    currentTurnPlayer++;
-    turn(currentTurnPlayer);
-  });
+  tableCard.addEventListener(
+    "click",
+    (window.x = function takeFromTableEvent() {
+      dropCardsToPile();
+      removeCardFromDom(cardsToDrop);
+      console.log(player);
+      console.log(playerHand);
+      takeCardFromTableDeck(player, playerHand);
+      tableCard.removeEventListener("click", takeFromTableEvent);
+      playerHand.removeEventListener("click", addCardToDropList);
+      pileCard.removeEventListener("click", y);
+      if (player === 4) {
+        currentTurnPlayer = 1;
+      } else {
+        currentTurnPlayer++;
+      }
+      turn(currentTurnPlayer);
+    })
+  );
 }
 
 // print players cards to dom
@@ -232,6 +252,14 @@ function printCardToDom(functionEvent, className, innerText, parent, imgSrc) {
   cardOnDOm.classList.add(className);
   cardOnDOm.setAttribute("src", `./cards-svg/${imgSrc}.svg`);
   cardOnDOm.setAttribute("alt", innerText);
+  if (
+    className === "pile-deck" &&
+    pileDeckContainer.querySelector(".pile-deck") !== null
+  ) {
+    let x = pileDeckContainer.querySelector(".pile-deck");
+    console.log(x);
+    parent.replaceChild(cardOnDOm, x);
+  }
   parent.append(cardOnDOm);
 }
 
